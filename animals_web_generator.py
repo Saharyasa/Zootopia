@@ -10,27 +10,31 @@ def load_data(file_name):
     with open(file_path, "r") as handle:
         return json.load(handle)
 
-# Load the JSON file
-animals_data = load_data("animals_data.json")
-
-# Step 2: Generate a properly formatted HTML string with animal data
-output = ""  # Create an empty string to store the formatted data
-for animal in animals_data:
-    output += "<li class='cards__item'>\n"
-    output += f"  <h2 class='card__title'>{animal['name']}</h2>\n"
-    
-    # Add diet info
-    output += f"  <p class='card__text'><strong>Diet:</strong> {animal['characteristics'].get('diet', 'Unknown')}</p>\n"
+# Function to serialize a single animal
+def serialize_animal(animal):
+    """Converts an animal dictionary into an HTML string."""
+    output = "<li class='cards__item'>\n"
+    output += f"<div class='card__title'>{animal['name']}</div>\n"
+    output += "<p class='card__text'>\n"
+    output += f"<strong>Diet:</strong> {animal['characteristics'].get('diet', 'Unknown')}<br>\n"
 
     # Add location if available
     if "locations" in animal and len(animal["locations"]) > 0:
-        output += f"  <p class='card__text'><strong>Location:</strong> {', '.join(animal['locations'])}</p>\n"
+        output += f"<strong>Location:</strong> {', '.join(animal['locations'])}<br>\n"
 
     # Add type if available
     if "type" in animal["characteristics"]:
-        output += f"  <p class='card__text'><strong>Type:</strong> {animal['characteristics']['type']}</p>\n"
+        output += f"<strong>Type:</strong> {animal['characteristics']['type']}<br>\n"
 
+    output += "</p>\n"
     output += "</li>\n"  # Close list item
+    return output
+
+# Load the JSON file
+animals_data = load_data("animals_data.json")
+
+# Step 2: Generate a string with the animals’ data
+output = ''.join([serialize_animal(animal) for animal in animals_data])
 
 # Step 3: Read the HTML template file
 with open("animals_template.html", "r") as template_file:
