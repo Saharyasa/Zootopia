@@ -1,0 +1,25 @@
+[
+    {
+        "name": "American Foxhound",
+        "diet": "Omnivore",
+        "locations": ["North-America"],
+        "type": "Hound"
+    },
+    {
+        "name": "Arctic Fox",
+        "diet": "Carnivore",
+        "locations": ["Eurasia"],
+        "type": "Mammal"
+    },
+    {
+        "name": "Cross Fox",
+        "diet": "Carnivore",
+        "locations": ["North-America"],
+        "type": "Mammal"
+    },
+    {
+        "name": "English Foxhound",
+        "diet": "Omnivore",
+        "locations": ["Europe"]
+    }
+]

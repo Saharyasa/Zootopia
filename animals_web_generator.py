@@ -1,7 +1,11 @@
+import os
 import json
 
-def load_data(file_path):
+def load_data(file_name):
     """Loads a JSON file and returns the parsed data."""
+    current_directory = os.path.dirname(os.path.abspath(__file__))  # Get current script directory
+    file_path = os.path.join(current_directory, file_name)  # Full path to JSON file
+
     with open(file_path, "r") as handle:
         return json.load(handle)
 
