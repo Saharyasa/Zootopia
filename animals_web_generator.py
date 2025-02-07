@@ -10,40 +10,39 @@ def load_data(file_name):
     with open(file_path, "r") as handle:
         return json.load(handle)
 
-# Function to serialize a single animal
+# Step 2: Serialize a single animal object
 def serialize_animal(animal):
-    """Converts an animal dictionary into an HTML string."""
+    """Converts an animal object into an HTML list item format."""
     output = "<li class='cards__item'>\n"
-    output += f"<div class='card__title'>{animal['name']}</div>\n"
-    output += "<p class='card__text'>\n"
-    output += f"<strong>Diet:</strong> {animal['characteristics'].get('diet', 'Unknown')}<br>\n"
+    output += f"    <div class='card__title'>{animal['name']}</div>\n"
+    output += "    <p class='card__text'>\n"
+    output += f"        <strong>Diet:</strong> {animal['characteristics'].get('diet', 'Unknown')}<br/>\n"
 
     # Add location if available
     if "locations" in animal and len(animal["locations"]) > 0:
-        output += f"<strong>Location:</strong> {', '.join(animal['locations'])}<br>\n"
+        output += f"        <strong>Location:</strong> {', '.join(animal['locations'])}<br/>\n"
 
     # Add type if available
     if "type" in animal["characteristics"]:
-        output += f"<strong>Type:</strong> {animal['characteristics']['type']}<br>\n"
+        output += f"        <strong>Type:</strong> {animal['characteristics']['type']}<br/>\n"
 
-    output += "</p>\n"
+    output += "    </p>\n"
     output += "</li>\n"  # Close list item
+
     return output
 
-# Load the JSON file
+# Step 3: Load the JSON file and generate HTML content
 animals_data = load_data("animals_data.json")
+animals_html_content = "".join([serialize_animal(animal) for animal in animals_data])
 
-# Step 2: Generate a string with the animals’ data
-output = ''.join([serialize_animal(animal) for animal in animals_data])
-
-# Step 3: Read the HTML template file
+# Step 4: Read the HTML template file
 with open("animals_template.html", "r") as template_file:
     html_template = template_file.read()
 
-# Step 4: Replace the placeholder with the generated animal data
-html_output = html_template.replace("__REPLACE_ANIMALS_INFO__", output)
+# Step 5: Replace the placeholder with the generated animal data
+html_output = html_template.replace("__REPLACE_ANIMALS_INFO__", animals_html_content)
 
-# Step 5: Write the modified HTML to a new file (animals.html)
+# Step 6: Write the modified HTML to a new file (animals.html)
 with open("animals.html", "w") as output_file:
     output_file.write(html_output)
 
